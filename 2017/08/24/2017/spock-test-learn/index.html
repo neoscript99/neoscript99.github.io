@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans,default">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+  <meta name="msvalidate.01" content="2DF893B2BF9981ECEB77F21C2F6CDE62">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.0.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.4" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.0.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  
+  <meta name="keywords" content="学习笔记,groovy,junit,测试,">
+
+
+<meta name="description" content="Spock操作符重载参数化测试 | , 分隔多个输入或输出   1false | false | -1  || , 分隔输入和输出  _ , 无返回结果  1234where: &quot;sample image names are&quot;pictureFile ||&quot;screenshot.bmp&quot; || _&quot;IMG3434.raw&quot; || _   STUB &amp;gt;&amp;gt;&amp;gt; , 添加多个返回结果，按照集合顺序返回">
+<meta name="keywords" content="学习笔记,groovy,junit,测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spock测试框架学习笔记">
+<meta property="og:url" content="https://neoscript99.github.io/2017/08/24/2017/spock-test-learn/index.html">
+<meta property="og:site_name" content="Neoscript&#39;s Blog">
+<meta property="og:description" content="Spock操作符重载参数化测试 | , 分隔多个输入或输出   1false | false | -1  || , 分隔输入和输出  _ , 无返回结果  1234where: &quot;sample image names are&quot;pictureFile ||&quot;screenshot.bmp&quot; || _&quot;IMG3434.raw&quot; || _   STUB &amp;gt;&amp;gt;&amp;gt; , 添加多个返回结果，按照集合顺序返回">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-01-15T09:15:50.593Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spock测试框架学习笔记">
+<meta name="twitter:description" content="Spock操作符重载参数化测试 | , 分隔多个输入或输出   1false | false | -1  || , 分隔输入和输出  _ , 无返回结果  1234where: &quot;sample image names are&quot;pictureFile ||&quot;screenshot.bmp&quot; || _&quot;IMG3434.raw&quot; || _   STUB &amp;gt;&amp;gt;&amp;gt; , 添加多个返回结果，按照集合顺序返回">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Neoscript's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://neoscript99.github.io/2017/08/24/2017/spock-test-learn/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+  <title>Spock测试框架学习笔记 | Neoscript's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Neoscript's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+    <div class="reading-progress-bar"></div>
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://neoscript99.github.io/2017/08/24/2017/spock-test-learn/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="neoscript">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://attach.neoscript.wang/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Neoscript's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spock测试框架学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-24T00:00:00+08:00">2017-08-24</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Spock操作符重载"><a href="#Spock操作符重载" class="headerlink" title="Spock操作符重载"></a>Spock操作符重载</h1><h2 id="参数化测试"><a href="#参数化测试" class="headerlink" title="参数化测试"></a>参数化测试</h2><ul>
+<li><p>| , 分隔多个输入或输出</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">false</span> | <span class="keyword">false</span> | -<span class="number">1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>|| , 分隔输入和输出</p>
+</li>
+<li>_ , 无返回结果  <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">where:</span> <span class="string">"sample image names are"</span></span><br><span class="line">pictureFile ||</span><br><span class="line"><span class="string">"screenshot.bmp"</span> || _</span><br><span class="line"><span class="string">"IMG3434.raw"</span> || _</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="STUB"><a href="#STUB" class="headerlink" title="STUB"></a>STUB</h2><ul>
+<li><p>>>> , 添加多个返回结果，按照集合顺序返回</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reader.getCurrentReadings() &gt;&gt;&gt; [prev,current]</span><br><span class="line">inventory.isProductAvailable( &quot;bravia&quot;, _) &gt;&gt;&gt; true &gt;&gt; false</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>>> , 添加单个返回结果，可以用闭包处理或抛异常</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">isProductAvailable(&quot;bravia&quot;,1) &gt;&gt; true</span><br><span class="line">inventory.isProductAvailable( &quot;bravia&quot;, _) &gt;&gt; &#123;</span><br><span class="line">    throw new RuntimeException(&quot;critical error&quot;)</span><br><span class="line">&#125;</span><br><span class="line">shippingCalculator.findShippingCostFor( _, _) &gt;&gt; &#123;</span><br><span class="line">    Product product, int count -&gt; 10 * count</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>_ , 代表任何变量</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">inventory.isProductAvailable(_, 1) &gt;&gt; true</span><br><span class="line">inventory.isProductAvailable( _, _) &gt;&gt; true</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="MOCK"><a href="#MOCK" class="headerlink" title="MOCK"></a>MOCK</h2><ul>
+<li><p>* , mock方法调用次数判断</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1 * control.activateAlarm()</span><br><span class="line">1 * creditCardSevice.sale(1200,customer)</span><br><span class="line">2 * inventory.isProductAvailable( _ , _) &gt;&gt; true</span><br><span class="line">0 * inventory._  //(no call for other method)</span><br><span class="line">2 * inventory.isProductAvailable(!null ,1) &gt;&gt; true</span><br><span class="line">2 * inventory.isProductAvailable(_ as String ,_ as Integer) &gt;&gt; true</span><br><span class="line">1 * creditCardSevice.sale(1550, &#123; client -&gt; client.vip == false&#125;)</span><br><span class="line">1 * creditCardSevice.sale(</span><br><span class="line">    &#123;amount -&gt; amount ==basket.findOrderPrice()&#125;,</span><br><span class="line">    &#123; client -&gt; client.vip == false&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>_ , 代表任何变量、方法、类</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2 * inventory.isProductAvailable( _ , _) &gt;&gt; true</span><br><span class="line">_ * inventory.isEmpty() &gt;&gt; false</span><br><span class="line">0 * _</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="Behavior-Testing-Paradigm"><a href="#Behavior-Testing-Paradigm" class="headerlink" title="Behavior-Testing Paradigm"></a>Behavior-Testing Paradigm</h1><p><code>Available Spock blocks</code></p>
+<p> <code>(given-when-then )( 相当于setup-stimulate-assert structure of JUnit )</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">() &#123;</span><br><span class="line">   given: FireEarlyWarning fireEarlyWarning =FireEarlyWarning()</span><br><span class="line">   triggeredSensors = when: fireEarlyWarning.feedData(triggeredSensors)</span><br><span class="line">   WarningStatus status = fireEarlyWarning.()</span><br><span class="line"></span><br><span class="line">   then: !status.!status.&#125;</span><br><span class="line"></span><br><span class="line">() &#123;</span><br><span class="line">   given: FireEarlyWarning fireEarlyWarning =FireEarlyWarning()</span><br><span class="line">   triggeredSensors = when: fireEarlyWarning.feedData(triggeredSensors)</span><br><span class="line">   WarningStatus status = fireEarlyWarning.()</span><br><span class="line"></span><br><span class="line">   then: status.!status.&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Parameterized-Test"><a href="#Parameterized-Test" class="headerlink" title="Parameterized Test"></a>Parameterized Test</h1><blockquote>
+<p>相当于JUint的 @RunWith(Parameterized.class)</p>
+</blockquote>
+<ol>
+<li><p>Using data tables in the where: block</p>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="string">"Complete test of all nuclear scenarios"</span>() &#123;</span><br><span class="line"><span class="symbol">    given:</span> <span class="string">"a nuclear reactor and sensor data"</span></span><br><span class="line">    NuclearReactorMonitor nuclearReactorMonitor =<span class="keyword">new</span> NuclearReactorMonitor()</span><br><span class="line"></span><br><span class="line"><span class="symbol">    when:</span> <span class="string">"we examine the sensor data"</span></span><br><span class="line">    nuclearReactorMonitor.feedFireSensorData(fireSensors)</span><br><span class="line">    nuclearReactorMonitor.feedRadiationSensorData(radiation)</span><br><span class="line">    nuclearReactorMonitor.feedPressureInBar(pressure)</span><br><span class="line">    NuclearReactorStatus status = nuclearReactorMonitor.getCurrentStatus()</span><br><span class="line"></span><br><span class="line"><span class="symbol">    then:</span> <span class="string">"we act according to safety requirements"</span></span><br><span class="line">    status.alarmActive == alarm</span><br><span class="line">    status.shutDownNeeded == shutDown</span><br><span class="line">    status.evacuationMinutes == evacuation</span><br><span class="line"></span><br><span class="line"><span class="symbol">    where:</span> <span class="string">"possible nuclear incidents are:"</span></span><br><span class="line">    pressure | fireSensors | radiation || alarm | shutDown | evacuation</span><br><span class="line">    <span class="number">150</span> | <span class="number">0</span> | [] || <span class="literal">false</span> | <span class="literal">false</span> | <span class="number">-1</span></span><br><span class="line">    <span class="number">150</span> | <span class="number">1</span> | [] || <span class="literal">true</span> | <span class="literal">false</span> | <span class="number">-1</span></span><br><span class="line">    <span class="number">150</span> | <span class="number">3</span> | [] || <span class="literal">true</span> | <span class="literal">true</span> | <span class="number">-1</span></span><br><span class="line">    <span class="number">150</span> | <span class="number">0</span>| [<span class="number">110.4</span>f ,<span class="number">0.3</span>f, <span class="number">0.0</span>f] || <span class="literal">true</span> | <span class="literal">true</span> | <span class="number">1</span></span><br><span class="line">    <span class="number">150</span> | <span class="number">0</span>| [<span class="number">45.3</span>f ,<span class="number">10.3</span>f, <span class="number">47.7</span>f]|| <span class="literal">false</span> | <span class="literal">false</span> | <span class="number">-1</span></span><br><span class="line">    <span class="number">155</span> | <span class="number">0</span>| [<span class="number">0.0</span>f ,<span class="number">0.0</span>f, <span class="number">0.0</span>f] || <span class="literal">true</span> | <span class="literal">false</span> | <span class="number">-1</span></span><br><span class="line">    <span class="number">170</span> | <span class="number">0</span>| [<span class="number">0.0</span>f ,<span class="number">0.0</span>f, <span class="number">0.0</span>f] || <span class="literal">true</span> | <span class="literal">true</span> | <span class="number">3</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Using data pipes for calculating input/output parameters</p>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">() &#123;</span><br><span class="line"><span class="symbol">   given:</span> ImageNameValidator validator = ImageNameValidator() </span><br><span class="line"></span><br><span class="line"><span class="symbol">   expect:</span> validator.isValidImageExtension(pictureFile) == validPicture </span><br><span class="line"></span><br><span class="line"><span class="symbol">   where:</span> pictureFile  &lt;&lt; [,, ,,]</span><br><span class="line">   validPicture &lt;&lt; [ , , , , ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Dynamically generated parameters</p>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">() &#123;</span><br><span class="line"><span class="symbol">   given:</span> Calculator calc = Calculator()</span><br><span class="line"></span><br><span class="line"><span class="symbol">   expect:</span> calc.multiply(first,second) &lt; <span class="string">where:</span> first &lt;&lt; (..)</span><br><span class="line">   second &lt;&lt; (-..-)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Parameters that stay constant</p>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">where:</span> <span class="string">"some scenarios are"</span></span><br><span class="line">first &lt;&lt; [<span class="number">20</span>,<span class="number">34</span>,<span class="number">44</span>,<span class="number">67</span>]</span><br><span class="line">second = <span class="number">-1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Parameters that depend on other parameters </p>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">where:</span> <span class="string">"some scenarios are"</span></span><br><span class="line">first &lt;&lt; [<span class="number">20</span>,<span class="number">34</span>,<span class="number">44</span>,<span class="number">67</span>]</span><br><span class="line">second = first * <span class="number">-1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Using dedicated data generators</p>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pictureFile &lt;&lt; <span class="keyword">new</span> File(<span class="string">"src/test/resources/validImageNames.txt"</span>).readLines()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Writing a custom data generator</p>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InvalidNamesGen</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">String</span>&gt;&#123;</span> ...&#125;</span><br><span class="line"><span class="string">where:</span> <span class="string">"sample image names are"</span></span><br><span class="line">pictureFile &lt;&lt; <span class="keyword">new</span> InvalidNamesGen()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Using multivalued data iterators</p>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">() &#123;</span><br><span class="line"><span class="symbol">   given:</span> ImageNameValidator validator = ImageNameValidator()</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line"><span class="symbol">   expect:</span> validator.isValidImageExtension(pictureFile) == result</span><br><span class="line">   </span><br><span class="line"><span class="symbol">   where:</span> [pictureFile,result] &lt;&lt; MultiVarReader()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Working with third-party data generators<br>! <a href="https://github.com/Bijnagte/spock-genesis" target="_blank" rel="noopener">Spock genesis library</a> </p>
+</li>
+</ol>
+<h1 id="Mocking-amp-Stubing"><a href="#Mocking-amp-Stubing" class="headerlink" title="Mocking&amp;Stubing"></a>Mocking&amp;Stubing</h1><ol>
+<li>A stub is a fake class that comes with preprogrammed return values. It’s injected in the class under test so that you have absolute control of what’s being tested as input.</li>
+<li>A mock is a fake11 class that can be examined after the test is finished for its interactions with the class under test (for example, you can ask it whether a method was called or how many times it was called).</li>
+<li><code>Spock only records the interactions of mocks in the when: block (which should always contain the trigger code)</code></li>
+<li><p>stub 多次调用，返回结果内容、顺序控制</p>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">reader.() &gt;&gt;&gt; [prev,current]</span><br><span class="line">TemperatureMonitor monitor = TemperatureMonitor(reader)</span><br><span class="line"><span class="string">when:</span> monitor.readSensor()</span><br><span class="line">monitor.readSensor()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>mock语法</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ReactorControl control = Mock(ReactorControl)</span><br><span class="line">then: <span class="string">"everything should be ok"</span> * control.shutdownReactor()</span><br><span class="line">* control.activateAlarm()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Combining mocks and stubs in parameterized tests</p>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">then:</span> shutDown * control.shutdownReactor()</span><br><span class="line">alarm * control.activateAlarm()</span><br><span class="line"><span class="string">where:</span> </span><br><span class="line">previousTemp | currentTemp       ||  alarm | shutDown</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Spy 针对设计不良的老代码，需要做部分mock，其它部分还是运行实际代码。如果能做refactor，尽量避免使用Spy</p>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">and:</span> <span class="string">"the auto-nuker program"</span></span><br><span class="line">SmartHardDriveNuker nuker = Spy(SmartHardDriveNuker)</span><br><span class="line"><span class="comment">//只mock deleteHardDriveNow()方法</span></span><br><span class="line">nuker.deleteHardDriveNow() &gt;&gt; &#123;println <span class="string">"Hard disk is cleared"</span>&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>动态方法重载</p>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="string">'test save map'</span>() &#123;</span><br><span class="line"><span class="symbol">    given:</span></span><br><span class="line">    GeneralRepository generalRepository = Mock(GeneralRepository)</span><br><span class="line">    <span class="comment">//1</span></span><br><span class="line">    generalRepository.saveEntity(_) &gt;&gt; &#123; Kpi kpi -&gt;</span><br><span class="line">        println kpi</span><br><span class="line">        <span class="keyword">return</span> kpi</span><br><span class="line">    &#125;</span><br><span class="line">    KpiService kpiService = <span class="keyword">new</span> KpiService(<span class="string">generalRepository:</span> generalRepository)</span><br><span class="line"></span><br><span class="line"><span class="symbol">    when:</span></span><br><span class="line">    Kpi kpi = kpiService.save([<span class="string">kpiCode:</span><span class="string">"A01"</span>])</span><br><span class="line"></span><br><span class="line"><span class="symbol">    then:</span></span><br><span class="line">    <span class="comment">//2</span></span><br><span class="line">    <span class="number">1</span> * generalRepository.saveEntity(_)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>1和2冲突，有2的话1不起作用</strong></p>
+<h1 id="Spock注解"><a href="#Spock注解" class="headerlink" title="Spock注解"></a>Spock注解</h1><ol>
+<li><p>@Subject（Marking the class under test inside a Spock test )</p>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">given:</span> <span class="string">"an empty basket"</span></span><br><span class="line"><span class="meta">@Subject</span></span><br><span class="line">Basket basket = <span class="keyword">new</span> Basket()</span><br></pre></td></tr></table></figure>
+<p> <code>The subject of this test is the Basket class.</code></p>
+</li>
+<li><p>@Title(Describing the Spock unit test as a whole )</p>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Title</span>(<span class="string">"Unit test for basket weight"</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BasketWeightSpec</span> <span class="keyword">extends</span> <span class="title">spock</span>.<span class="title">lang</span>.<span class="title">Specification</span>&#123;</span></span><br><span class="line">    [...test methods here redacted <span class="keyword">for</span> brevity...]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>@Narrative (详述)</p>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Narrative</span>(<span class="string">""" A empty basket starts with no weight. Adding products to the basket increases its weight. The weight is</span></span><br><span class="line"><span class="string">then used for billing during shipping calculations. Electronic goods have always zero weight."""</span>)</span><br><span class="line"><span class="meta">@Title</span>(<span class="string">"Unit test for basket weight"</span>)</span><br><span class="line"><span class="meta">@Subject</span>(Basket)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BasketWeightDetailedSpec</span> <span class="keyword">extends</span> <span class="title">spock</span>.<span class="title">lang</span>.<span class="title">Specification</span>&#123;</span></span><br><span class="line">[...test methods here redacted <span class="keyword">for</span> brevity...]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>@Shared (Long-lived objects )</p>
+</li>
+<li><p>@Unroll( annotation for reporting individual test runs )</p>
+<blockquote>
+<p>自动分割测试案例，并通过模板维护测试名称</p>
+</blockquote>
+ <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="string">"Trivial adder test"</span>() &#123;</span><br><span class="line"><span class="symbol">    given:</span> <span class="string">"an adder"</span></span><br><span class="line">    Adder adder = <span class="keyword">new</span> Adder()</span><br><span class="line"></span><br><span class="line"><span class="symbol">    when:</span> <span class="string">"the add method is called for two numbers"</span></span><br><span class="line">    <span class="keyword">int</span> result = adder.add(first,second)</span><br><span class="line"></span><br><span class="line"><span class="symbol">    then:</span> <span class="string">"the result should be the sum of them"</span></span><br><span class="line">    result ==sum</span><br><span class="line"></span><br><span class="line"><span class="symbol">    where:</span> <span class="string">"some scenarios are"</span></span><br><span class="line">    first |second || sum</span><br><span class="line">    <span class="number">1</span> | <span class="number">1</span> || <span class="number">2</span></span><br><span class="line">    <span class="number">3</span> | <span class="number">2</span> || <span class="number">5</span></span><br><span class="line">    <span class="number">3</span> | <span class="number">-3</span> || <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>@Stepwise ( 根据测试方法顺序执行 )</p>
+</li>
+<li>@Timeout(value = 5000, unit = TimeUnit.MILLISECONDS) 设定超时时间</li>
+<li>@AutoCleanup(“shutdown”) 自动清理，默认调用close方法</li>
+</ol>
+<h1 id="其它功能"><a href="#其它功能" class="headerlink" title="其它功能"></a>其它功能</h1><ol>
+<li><p>setupSpec setup cleanup cleanupSpec</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LifecycleSpec</span> <span class="keyword">extends</span> <span class="title">spock</span>.<span class="title">lang</span>.<span class="title">Specification</span></span>&#123;</span><br><span class="line">    <span class="function">def <span class="title">setupSpec</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="comment">//      println "Will run only once"</span></span><br><span class="line">    &#125;       </span><br><span class="line">    <span class="function">def <span class="title">setup</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="comment">//      println "Will run before EACH feature"</span></span><br><span class="line">    &#125;           </span><br><span class="line">    def <span class="string">"first feature being tested"</span>() &#123;</span><br><span class="line">        expect: <span class="string">"trivial test"</span></span><br><span class="line"><span class="comment">//      println "first feature runs"</span></span><br><span class="line">        <span class="number">2</span> == <span class="number">1</span> +<span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    def <span class="string">"second feature being tested"</span>() &#123;</span><br><span class="line">        expect: <span class="string">"trivial test"</span></span><br><span class="line"><span class="comment">//      println "second feature runs"</span></span><br><span class="line">        <span class="number">5</span> == <span class="number">3</span> +<span class="number">2</span></span><br><span class="line">    &#125;   </span><br><span class="line">    <span class="function">def <span class="title">cleanup</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="comment">//      println "Will run once after EACH feature"</span></span><br><span class="line">    &#125;        </span><br><span class="line">    </span><br><span class="line">    <span class="function">def <span class="title">cleanupSpec</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="comment">//      println "Will run once at the end"</span></span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>old()方法</p>
+<blockquote>
+<p>get value in given: block,before the when: block</p>
+</blockquote>
+</li>
+<li>Hamcrest matchers  <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">expect:</span> <span class="string">"camera should be one of them"</span></span><br><span class="line">products hasItem(<span class="string">"camera"</span>)</span><br><span class="line"><span class="string">and:</span> <span class="string">"hotdog is not one of them"</span></span><br><span class="line">products not(hasItem(<span class="string">"hotdog"</span>))</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
+          
+            <a href="/tags/groovy/" rel="tag"># groovy</a>
+          
+            <a href="/tags/junit/" rel="tag"># junit</a>
+          
+            <a href="/tags/测试/" rel="tag"># 测试</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/12/2017/deepin-ubuntu-linux-learn/" rel="prev" title="Deepin-Ubuntu-Linux学习笔记">
+                Deepin-Ubuntu-Linux学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="http://attach.neoscript.wang/avatar.png" alt="neoscript">
+            
+              <p class="site-author-name" itemprop="name">neoscript</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/neoscript99" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spock操作符重载"><span class="nav-number">1.</span> <span class="nav-text">Spock操作符重载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#参数化测试"><span class="nav-number">1.1.</span> <span class="nav-text">参数化测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#STUB"><span class="nav-number">1.2.</span> <span class="nav-text">STUB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MOCK"><span class="nav-number">1.3.</span> <span class="nav-text">MOCK</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Behavior-Testing-Paradigm"><span class="nav-number">2.</span> <span class="nav-text">Behavior-Testing Paradigm</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Parameterized-Test"><span class="nav-number">3.</span> <span class="nav-text">Parameterized Test</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Mocking-amp-Stubing"><span class="nav-number">4.</span> <span class="nav-text">Mocking&amp;Stubing</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spock注解"><span class="nav-number">5.</span> <span class="nav-text">Spock注解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其它功能"><span class="nav-number">6.</span> <span class="nav-text">其它功能</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">neoscript</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Pisces</a> v6.0.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script id="ribbon" type="text/javascript" size="300" alpha="0.6" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/reading_progress/reading_progress.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.4"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
